@@ -73,7 +73,7 @@ def generate_image():
 
     draw.text(
         (45, 1090),
-        
+        "Random positions - Not a game prediction",
         fill="#555555",
         font=footer
     )
