@@ -80,7 +80,7 @@ def generate_image():
 
     img.save("mines_signal.png")
     print("Grille créée avec exactement 4 étoiles.")
+    return stars
 
 if __name__ == "__main__":
     generate_image()
-    return stars
