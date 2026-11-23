@@ -82,5 +82,4 @@ def generate_image():
     print("Grille créée avec exactement 4 étoiles.")
 
 if __name__ == "__main__":
-    generate_image()
-return stars
+    generate_image()return stars
