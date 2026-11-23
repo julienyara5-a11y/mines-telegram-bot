@@ -1,65 +1,57 @@
 
 import os
+import random
 import requests
-import generator
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHANNEL_ID = os.environ["CHANNEL_ID"]
 
 def send_signal():
-    # Générer l'image et récupérer les positions des étoiles
-    stars = generator.generate_image()
+    # Choisir exactement 4 positions aléatoires
+    stars = random.sample(range(25), 4)
 
-    # Construire la grille textuelle 5x5
+    # Construire la grille sans espaces
     rows = []
 
     for row in range(5):
-        line = []
+        line = ""
 
         for col in range(5):
             index = row * 5 + col
 
             if index in stars:
-                line.append("⭐️")
+                line += "⭐️"
             else:
-                line.append("🟦")
+                line += "🟦"
 
-        rows.append("".join(line))
+        rows.append(line)
 
-    text_grid = "\n".join(rows)
+    grid = "\n".join(rows)
 
-    caption = (
-        "🎲 RANDOM SIGNAL\n\n"
+    message = (
+        "✅ CONFIRMED ENTRY\n\n"
         "Bombs: 3 💣\n"
         "Attempts: 3\n\n"
         "👉 Play Here!\n\n"
-        f"{text_grid}\n\n"
+        f"{grid}\n\n"
         "✅ Tutorial\n\n"
         "⚠️ Positions générées aléatoirement, "
         "non garanties."
     )
 
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
-    with open("mines_signal.png", "rb") as photo:
-        response = requests.post(
-            url,
-            data={
-                "chat_id": CHANNEL_ID,
-                "caption": caption
-            },
-            files={"photo": photo},
-            timeout=30
-        )
+    response = requests.post(
+        url,
+        data={
+            "chat_id": CHANNEL_ID,
+            "text": message
+        },
+        timeout=30
+    )
 
     response.raise_for_status()
-
-    result = response.json()
-
-    if not result.get("ok"):
-        raise RuntimeError(result)
-
-    print("Image et grille textuelle envoyées !")
+    print("Signal texte envoyé avec succès !")
 
 if __name__ == "__main__":
     send_signal()
