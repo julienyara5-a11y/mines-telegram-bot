@@ -1,4 +1,3 @@
-
 import os
 import random
 import requests
@@ -28,15 +27,17 @@ def send_signal():
 
     grid = "\n".join(rows)
 
+    # Remplacez ces liens par les vôtres
+    play_url = "https://lkuf.cc/321d3b"
+    tutorial_url = "https://t.me/votre_lien_tutoriel"
+
     message = (
         "✅ CONFIRMED ENTRY\n\n"
         "Bombs: 3 💣\n"
         "Attempts: 3\n\n"
-        "👉 Play Here!\n\n"
+        f"👉 [Play Here!]({play_url})\n\n"
         f"{grid}\n\n"
-        "✅ Tutorial\n\n"
-        "⚠️ Positions générées aléatoirement, "
-        "non garanties."
+        f"✅ [Tutorial]({tutorial_url})"
     )
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -45,7 +46,8 @@ def send_signal():
         url,
         data={
             "chat_id": CHANNEL_ID,
-            "text": message
+            "text": message,
+            "parse_mode": "Markdown"  # Indispensable pour activer les liens cliquables
         },
         timeout=30
     )
